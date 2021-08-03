@@ -4,17 +4,35 @@
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="style.css" />
         <title>NFC Checker</title>
     </head>
     <body>
-        <button onclick="checkNFC()">Check NFC Support</button>
+        <div class="box">
+            <button class="button check" onclick="checkNFC()">
+                Check NFC Support
+            </button>
+            <button class="button write" onclick="write()">Write</button>
+        </div>
+
         <script>
+            const ndef = new NDEFReader();
+
             function checkNFC() {
                 if ("NDEFReader" in window) {
-                    alert("NFC is supports");
+                    alert(`NFC is supports ${ndef}`);
+                    console.log("NDEF", ndef);
                 } else {
                     alert("NFC is NOT supports");
                 }
+            }
+
+            function write() {
+                ndef.write("Hello World")
+                    .then(() => alert("Message written."))
+                    .catch((error) =>
+                        alert(`Write failed :-( try again: ${error}.`)
+                    );
             }
         </script>
     </body>
